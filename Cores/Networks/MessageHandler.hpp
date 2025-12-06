@@ -1,6 +1,8 @@
 #ifndef MESSAGE_HANDLER
 #define MESSAGE_HANDLER
 
+#include "../CoreIncluding.hpp"
+
 bool SendMessage(int clientFD, const string &msg)
 {
     string fullMsg = msg + "\r\n";

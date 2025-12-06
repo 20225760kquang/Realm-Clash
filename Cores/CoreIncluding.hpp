@@ -11,6 +11,9 @@
 #include <sys/socket.h>
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
+#include <unordered_map>
+#include <cstdlib>
 #include "Plugins/Nlohmann Json/json.hpp"
 
 using namespace std;

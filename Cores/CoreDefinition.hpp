@@ -1,7 +1,8 @@
 #ifndef CORE_DEFINITION
 #define CORE_DEFINITION
 
-#define SERVER_PORT 5874
+#define SERVER_PORT                         5874
+#define CLIENT_IP                           "127.0.0.1"
 
 // Client request protocols
 #define CREATE_ROOM                         "CREATE_ROOM"
@@ -43,25 +44,5 @@
 
 #define STATUS_UPDATE_RESOURCE              911
 #define STATUS_UPDATE_TEAM                  912
-
-struct MessageData
-{
-    string text;
-    string time;
-};
-
-void to_json(json& j, const MessageData& m)
-{
-    j = json{
-        {"text", m.text},
-        {"time", m.time}
-    };
-}
-
-void from_json(const json& j, MessageData& m)
-{
-    m.text = j.at("text").get<string>();
-    m.time = j.at("time").get<string>();
-}
 
 #endif

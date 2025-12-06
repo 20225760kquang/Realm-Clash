@@ -13,13 +13,13 @@ server: $(SERVER_SRC)
 client: $(CLIENT_SRC)
 	$(CXX) $(CXXFLAGS) $(CLIENT_SRC) -o client $(LDFLAGS)
 
-SRC_DIR = Tests
-PROGRAMS = room
+# SRC_DIR = Tests
+# PROGRAMS = room
 
-all: $(PROGRAMS)
+# all: $(PROGRAMS)
 
-%: $(SRC_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
+# %: $(SRC_DIR)/%.cpp
+# 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
 	rm -f server client

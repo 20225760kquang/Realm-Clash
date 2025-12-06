@@ -1,42 +1,61 @@
-#include "../Cores/CoreIncluding.h"
-#include "../Cores/CoreDefinition.h"
-#include "../Cores/Networks/MessageHandler.h"
+// #include "Views/LobbyView.h"
+#include "../Cores/Networks/MessageHandler.hpp"
+#include "../Cores/CoreFunction.hpp" 
+#include "../Cores/CoreIncluding.hpp" 
+#include "../Cores/CoreDefinition.hpp"
+#include "ClientDeclaration.hpp"
 
-void ReceiveThread(int client_fd)
+struct MessageData
+{
+    string text;
+    string time;
+};
+
+void to_json(json& j, const MessageData& m)
+{
+    j = json{
+        {"text", m.text},
+        {"time", m.time}
+    };
+}
+
+void from_json(const json& j, MessageData& m)
+{
+    m.text = j.at("text").get<string>();
+    m.time = j.at("time").get<string>();
+}
+
+void ReceiveThread(int clientFD)
 {
     while (true)
     {
-        string msg = ReceiveMessage(client_fd);
+        string msg = ReceiveMessage(clientFD);
         if (msg.empty()) break;
         cout << msg << endl;
     }
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    if (argc < 2)
-    {
-        cout << "Usage: ./client <server-ip>\n";
-        return 0;
+    ClientFD = socket(AF_INET, SOCK_STREAM, 0);
+    if (ClientFD < 0) 
+    { 
+        perror("socket"); 
+        return 0; 
     }
 
-    string ip = argv[1];
-
-    int client_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (client_fd < 0) { perror("socket"); return 1; }
-
-    sockaddr_in serv{};
+    sockaddr_in serv = {};
     serv.sin_family = AF_INET;
     serv.sin_port = htons(SERVER_PORT);
-    inet_pton(AF_INET, ip.c_str(), &serv.sin_addr);
+    inet_pton(AF_INET, CLIENT_IP, &serv.sin_addr);
 
-    if (connect(client_fd, (sockaddr*)&serv, sizeof(serv)) < 0)
+    if (connect(ClientFD, (sockaddr*)&serv, sizeof(serv)) < 0)
     {
         perror("connect");
         return 1;
     }
 
-    thread(ReceiveThread, client_fd).detach();
+    thread(ReceiveThread, ClientFD).detach();
 
     while (true)
     {
@@ -46,7 +65,6 @@ int main(int argc, char *argv[])
 
         if (msg == "/quit") break;
 
-        // protocol command + json
         if (msg.rfind("MESSAGE ", 0) == 0)
         {
             string text = msg.substr(8);
@@ -62,14 +80,14 @@ int main(int argc, char *argv[])
 
             json j = data;
 
-            SendMessage(client_fd, "MESSAGE " + j.dump());
+            SendMessage(ClientFD, "MESSAGE " + j.dump());
         }
         else
         {
-            SendMessage(client_fd, msg); // other commands like SCORE
+            SendMessage(ClientFD, msg);
         }
     }
 
-    close(client_fd);
-    return 0;
+    close(ClientFD);
+    return 1;
 }
