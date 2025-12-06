@@ -1,6 +1,7 @@
-#include "../Cores/CoreIncluding.h"
-#include "../Cores/CoreDefinition.h"
-#include "../Cores/Networks/MessageHandler.h"
+#include "Cores/CoreIncluding.hpp"
+#include "Cores/CoreDefinition.hpp"
+#include "Cores/CoreFunction.hpp"
+#include "Cores/Networks/MessageHandler.hpp"
 
 void ReceiveThread(int client_fd)
 {

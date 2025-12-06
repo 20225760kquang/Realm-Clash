@@ -5,13 +5,19 @@ LDFLAGS = -pthread
 SERVER_SRC = Servers/Server.cpp
 CLIENT_SRC = Clients/Client.cpp
 
-all: server client
+all: server client oldserver oldclient
 
 server: $(SERVER_SRC)
 	$(CXX) $(CXXFLAGS) $(SERVER_SRC) -o server $(LDFLAGS)
 
 client: $(CLIENT_SRC)
 	$(CXX) $(CXXFLAGS) $(CLIENT_SRC) -o client $(LDFLAGS)
+
+oldserver: oldServer.cpp
+	$(CXX) $(CXXFLAGS) oldServer.cpp -o oldserver $(LDFLAGS)
+
+oldclient: oldClient.cpp
+	$(CXX) $(CXXFLAGS) oldClient.cpp -o oldclient $(LDFLAGS)
 
 # SRC_DIR = Tests
 # PROGRAMS = room

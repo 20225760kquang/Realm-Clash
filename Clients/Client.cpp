@@ -30,12 +30,16 @@ void ReceiveThread(int clientFD)
     while (true)
     {
         string msg = ReceiveMessage(clientFD);
-        if (msg.empty()) break;
+        if (msg.empty()) {
+    cout << "[ReceiveThread] Connection closed or failed recv()" << endl;
+    break;
+}
+
         cout << msg << endl;
     }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     ClientFD = socket(AF_INET, SOCK_STREAM, 0);
     if (ClientFD < 0) 
@@ -44,10 +48,12 @@ int main()
         return 0; 
     }
 
+    string ip = argv[1];
+
     sockaddr_in serv = {};
     serv.sin_family = AF_INET;
     serv.sin_port = htons(SERVER_PORT);
-    inet_pton(AF_INET, CLIENT_IP, &serv.sin_addr);
+    inet_pton(AF_INET, ip.c_str(), &serv.sin_addr);
 
     if (connect(ClientFD, (sockaddr*)&serv, sizeof(serv)) < 0)
     {

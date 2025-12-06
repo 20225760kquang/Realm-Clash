@@ -1,12 +1,13 @@
-#include "../Cores/CoreIncluding.h"
-#include "../Cores/CoreDefinition.h"
-#include "ServerDeclaration.h"
-#include "../Cores/Networks/MessageHandler.h"
+#include "Cores/CoreIncluding.hpp"
+#include "Cores/CoreDefinition.hpp"
+#include "Cores/CoreFunction.hpp"
+#include "Servers/ServerDeclaration.hpp"
+#include "Cores/Networks/MessageHandler.hpp"
 
 void BroadcastMessage(const string &msg, int sender_fd)
 {
-    lock_guard<mutex> lock(clients_mutex);
-    for (int fd : clients)
+    lock_guard<mutex> lock(ClientsMutex);
+    for (int fd : Clients)
     {
         if (fd != sender_fd)
         {
@@ -58,8 +59,8 @@ void ProcessMessage(const string& msg, int client_fd)
 void HandleClient(int client_fd)
 {
     {
-        lock_guard<mutex> lock(clients_mutex);
-        clients.push_back(client_fd);
+        lock_guard<mutex> lock(ClientsMutex);
+        Clients.push_back(client_fd);
     }
 
     SendMessage(client_fd, "Welcome to the chat!");
@@ -75,8 +76,8 @@ void HandleClient(int client_fd)
     }
 
     {
-        lock_guard<mutex> lock(clients_mutex);
-        clients.erase(remove(clients.begin(), clients.end(), client_fd), clients.end());
+        lock_guard<mutex> lock(ClientsMutex);
+        Clients.erase(remove(Clients.begin(), Clients.end(), client_fd), Clients.end());
     }
 
     close(client_fd);

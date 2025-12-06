@@ -8,12 +8,10 @@
 
 void HandleClient(int clientFD)
 {
-    {
-        lock_guard<mutex> lock(ClientsMutex);
-        Clients.push_back(clientFD);
-    }
+    lock_guard<mutex> lock(ClientsMutex);
+    Clients.push_back(clientFD);
 
-    SendMessage(clientFD, "Welcome to the chat!");
+    SendMessage(clientFD, to_string(NETWORK_CONNECTED));
 
     while (true)
     {

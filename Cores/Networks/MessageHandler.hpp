@@ -25,11 +25,17 @@ string ReceiveMessage(int clientFD)
     while (true)
     {
         ssize_t n = recv(clientFD, &c, 1, 0);
-        if (n <= 0) return "";
+        
+        if (n <= 0) 
+        {
+            return "";
+        }
+
         data.push_back(c);
+
         if (data.size() >= 2 && data[data.size()-2] == '\r' && data[data.size()-1] == '\n')
         {
-            data.resize(data.size()-2);
+            data.resize(data.size()-2); 
             return data;
         }
     }

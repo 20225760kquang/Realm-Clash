@@ -42,7 +42,9 @@
 #define ATTACK_CASTLE_S                     610
 #define ATTACK_CASTLE_F_INSUFFICIENT_POWER  601
 
-#define STATUS_UPDATE_RESOURCE              911
-#define STATUS_UPDATE_TEAM                  912
+#define STATUS_UPDATE_RESOURCE              810
+#define STATUS_UPDATE_TEAM                  811
+
+#define NETWORK_CONNECTED                   910
 
 #endif

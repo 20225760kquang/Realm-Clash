@@ -48,7 +48,7 @@ int AcceptClient(int serverFD)
         return -1; 
     }
 
-    cout << "[+] Client " << clientFD << " connected.\n";
+    cout << "\033[32m●\033[0m Client " << clientFD << " connected.\n";
 
     return clientFD;
 }
