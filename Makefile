@@ -4,21 +4,31 @@ LDFLAGS = -pthread
 
 SERVER_SRC = Servers/Server.cpp
 CLIENT_SRC = Clients/Client.cpp
-RESET_SRC = Functions/ResetData.cpp
+RESET_SRC  = Functions/ResetData.cpp
+
+SERVER_OBJ = $(SERVER_SRC:.cpp=.o)
+CLIENT_OBJ = $(CLIENT_SRC:.cpp=.o)
+RESET_OBJ  = $(RESET_SRC:.cpp=.o)
 
 all: server client reset
 
-server: $(SERVER_SRC)
-	$(CXX) $(CXXFLAGS) $(SERVER_SRC) -o server $(LDFLAGS)
+server: $(SERVER_OBJ)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
-client: $(CLIENT_SRC)
-	$(CXX) $(CXXFLAGS) $(CLIENT_SRC) -o client $(LDFLAGS)
+client: $(CLIENT_OBJ)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
-reset: $(RESET_SRC)
-	$(CXX) $(CXXFLAGS) $(RESET_SRC) -o reset $(LDFLAGS)
+reset: $(RESET_OBJ)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
-clean: 
-	rm -f server client
+clean:
+	rm -f server client reset $(SERVER_OBJ) $(CLIENT_OBJ) $(RESET_OBJ)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
+
+-include $(SERVER_OBJ:.o=.d) $(CLIENT_OBJ:.o=.d) $(RESET_OBJ:.o=.d)
+
 
 # all: oldserver oldclient
 

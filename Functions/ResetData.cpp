@@ -1,14 +1,15 @@
 #include <fstream>
 #include <iostream>
-#include "Servers/ServerDefinition.hpp"
+#include "../Servers/ServerDefinition.hpp"
 
-void resetFiles() 
+void ResetFiles() 
 {
+    // Status.ynl
     {
-        std::ofstream statusFile(STATUS_FILE_PATH, std::ios::trunc);
+        std::ofstream statusFile(STATUS_PATH, std::ios::trunc);
         if (!statusFile) 
         {
-            std::cerr << "Failed to open " << STATUS_FILE_PATH << "\n";
+            std::cerr << "Failed to open " << STATUS_PATH << "\n";
         } 
         else 
         {
@@ -16,18 +17,19 @@ void resetFiles()
         }
     }
 
+    // Account.ynl
     {
-        std::ofstream accountFile(ACCOUNT_FILE_PATH, std::ios::trunc);
+        std::ofstream accountFile(ACCOUNT_PATH, std::ios::trunc);
         if (!accountFile) 
         {
-            std::cerr << "Failed to open " << ACCOUNT_FILE_PATH << "\n";
+            std::cerr << "Failed to open " << ACCOUNT_PATH << "\n";
         }
     }
 }
 
 int main() 
 {
-    resetFiles();
+    ResetFiles();
     std::cout << "Files reset successfully.\n";
     return 0;
 }

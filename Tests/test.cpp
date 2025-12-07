@@ -1,75 +1,107 @@
 #include <iostream>
+#include <chrono>
+#include <ctime>
+#include <thread>
 #include <iomanip>
-#include <string>
 
 using namespace std;
 
-void ClearScreen() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
+void MoveUp(int n) {
+    cout << "\033[" << n << "A";
 }
 
-struct RoomInfo {
-    string roomName;
-    int current;
-    int max;
-    bool isHost;
-};
-
-void DrawRoomDetail(const string& playerName, const RoomInfo& info) {
-    ClearScreen();
-
-    cout << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-    cout << "┃ Name: " << left << setw(32) << playerName << " ┃\n";
-    cout << "┣━━━━━━━━━━━━━━━━━ STATUS ━━━━━━━━━━━━━━━┫\n";
-
-    // Room line
-    cout << "┃ Room: " 
-         << left << setw(9) << info.roomName
-         << right << setw(2) << info.current
-         << "/"
-         << setw(2) << info.max
-         << "                   ┃\n";
-
-    // Role line
-    cout << "┃ Role: " << (info.isHost ? "Host" : "Member");
-    cout << setw(37 - string(info.isHost ? "Host" : "Member").size()) << " ┃\n";
-
-    // Options
-    cout << "┣━━━━━━━━━━━━━━━━ OPTIONS ━━━━━━━━━━━━━━━┫\n";
-    cout << "┃ 1 : Exit room ♖                        ┃\n";
-
-    if (info.isHost)
-        cout << "┃ 2 : Start match                        ┃\n";
-
-    cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
+void ClearLine() {
+    cout << "\033[2K\r";  // Erase entire line
 }
 
-int main(int argc, char *argv[]) {
-    string playerName = "playerA";
+int main() {
+    int tick = 0;
 
-    RoomInfo memberUI = {"RoomA", 6, 15, false};
-    RoomInfo hostUI   = {"RoomA", 6, 15, true};
+    const int UI_LINES = 6;
 
-    int type = atoi(argv[1]);
-    if (type == 0)
-    {
-        cout << "\n--- Member UI ---\n\n";
-        DrawRoomDetail(playerName, memberUI);
-        cin.get();
+    // Print empty lines first (layout)
+    for (int i = 0; i < UI_LINES; i++)
+        cout << "\n";
+
+    while (true) {
+        // Get time
+        auto now = chrono::system_clock::now();
+        time_t tt = chrono::system_clock::to_time_t(now);
+        tm* local = localtime(&tt);
+
+        char timeStr[32];
+        strftime(timeStr, sizeof(timeStr), "%I:%M:%S %p", local);
+
+        // Colors
+        const char* cyan   = "\033[36m";
+        const char* yellow = "\033[33m";
+        const char* green  = "\033[32m";
+        const char* reset  = "\033[0m";
+
+        // Go up to UI start
+        MoveUp(UI_LINES);
+
+        // Draw stable-width UI
+        ClearLine(); cout << cyan   << "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" << reset << "\n";
+        ClearLine(); cout << green  << "┃        TIMER STATUS        ┃" << reset << "\n";
+        ClearLine(); cout << cyan   << "┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫" << reset << "\n";
+
+        // Pad dynamic text so line length is stable
+        string t = string("┃ Current Time: ") + timeStr;
+        t.resize(31, ' ');
+        t += "┃";
+
+        string k = string("┃ Current Tick: ") + to_string(tick);
+        k.resize(31, ' ');
+        k += "┃";
+
+        ClearLine(); cout << yellow << t << reset << "\n";
+        ClearLine(); cout << yellow << k << reset << "\n";
+
+        ClearLine(); cout << cyan   << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" << reset << "\n";
+
+        cout.flush();
+        this_thread::sleep_for(chrono::seconds(1));
+        tick++;
     }
-    else
-    {
-        cout << "\n--- Host UI ---\n\n";
-        DrawRoomDetail(playerName, hostUI);
-        cin.get();
-    }
-
-    return 0;
 }
+
+
+/*
+// vector<UIRoom> ConvertLobbyRooms(const Lobby& lobby) 
+// {
+//     vector<UIRoom> ui;
+//     ui.reserve(lobby.Rooms.size());
+
+//     // Sort rooms by ID ascending
+//     vector<pair<int, Room>> sortedRooms(lobby.Rooms.begin(), lobby.Rooms.end());
+//     sort(sortedRooms.begin(), sortedRooms.end(),
+//          [](auto& a, auto& b){ return a.first < b.first; });
+
+//     for (const auto& pair : sortedRooms) {
+//         const Room& r = pair.second;
+
+//         UIRoom u;
+//         u.id = r.ID;
+//         u.name = r.Name;
+//         u.current = r.Members.size();
+//         u.max = 15;
+//         u.inMatch = r.InMatch;
+
+//         ui.push_back(u);
+//     }
+
+//     return ui;
+// }
+
+void PrintRoomList(const vector<MyUIRoom>& rooms) 
+{
+    for (const auto& room : rooms) 
+    {
+        cout << room.ID << " " << room.Name << " - " << room.Host << endl;
+    }
+}
+*/
 
 /*
 ┏━ playerA ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -118,7 +150,3 @@ int main(int argc, char *argv[]) {
 ┃                               ┃                                                          ┃ 
 ┃                               ┃                                                          ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-
-
-
-*/

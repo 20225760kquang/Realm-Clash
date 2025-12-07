@@ -1,8 +1,8 @@
 #ifndef SERVER_NETWORK
 #define SERVER_NETWORK
 
-#include "../Cores/Networks/MessageHandler.hpp"
-#include "../Cores/CoreDefinition.hpp"
+#include "../Commons/Networks/MessageHandler.hpp"
+#include "../Commons/CommonDefinition.hpp"
 
 int CreateSocket()
 {
@@ -48,20 +48,20 @@ int AcceptClient(int serverFD)
         return -1; 
     }
 
-    cout << "\033[32m●\033[0m Client " << clientFD << " connected.\n";
+    cout << FG_GREEN "●" RESET " Client " << clientFD << " connected.\n";
 
     return clientFD;
 }
 
-void BroadcastMessage(const string &msg, int senderFD, bool ignoreSender)
-{
-    lock_guard<mutex> lock(ClientsMutex);
-    for (int fd : Clients)
-    {
-        if (fd != senderFD || ignoreSender)
-        {
-            SendMessage(fd, msg);
-        }
-    }
-}
+// void BroadcastMessage(const string &msg, int senderFD, bool ignoreSender)
+// {
+//     lock_guard<mutex> lock(ClientsMutex);
+//     for (int fd : Clients)
+//     {
+//         if (fd != senderFD || ignoreSender)
+//         {
+//             SendMessage(fd, msg);
+//         }
+//     }
+// }
 #endif

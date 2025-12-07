@@ -17,6 +17,8 @@
 #include <fstream>
 #include "Plugins/Nlohmann Json/json.hpp"
 
+#include "Definitions/TextStyle.hpp"
+
 using namespace std;
 using json = nlohmann::json;
 

@@ -1,7 +1,7 @@
 #ifndef CORE_FUNCTION
 #define CORE_FUNCTION
 
-#include "CoreIncluding.hpp"
+#include "CommonIncluding.hpp"
 
 void ClearScreen() 
 {
@@ -59,12 +59,12 @@ tuple<string, string> HandleRequest(const string& input)
     return {part1, part2};
 }
 
-vector<string> SplitMessage(const string& str) 
+vector<string> SplitByCharacter(const string& str, const char& character) 
 {
     vector<string> result;
     istringstream iss(str);
     string token;
-    while (getline(iss, token, '/')) 
+    while (getline(iss, token, character)) 
     {
         result.push_back(token);
     }
@@ -72,7 +72,17 @@ vector<string> SplitMessage(const string& str)
     return result;
 }
 
-bool IsExistedAccount(const string& path, const string& email, string& password) 
+vector<string> SplitBySlash(const string& str)
+{
+    return SplitByCharacter(str, '/');
+}
+
+vector<string> SplitBySpace(const string& str)
+{
+    return SplitByCharacter(str, ' ');
+}
+
+bool IsExistedAccount(const string& path, const string& email, string& password, string& id, string& name) 
 {
     ifstream fin(path);
     
@@ -82,8 +92,8 @@ bool IsExistedAccount(const string& path, const string& email, string& password)
         return false;
     }
 
-    string id, fileEmail;
-    while (fin >> id >> fileEmail >> password) 
+    string fileEmail;
+    while (fin >> id >> fileEmail >> password >> name) 
     {
         if (fileEmail == email) 
         {

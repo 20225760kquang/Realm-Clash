@@ -1,43 +1,22 @@
-#include "Views/LobbyView.h"
-#include "../Cores/Models/Lobby2.hpp"
-#include "../Cores/Networks/MessageHandler.hpp"
-#include "../Cores/CoreFunction.hpp" 
-#include "../Cores/CoreIncluding.hpp" 
-#include "../Cores/CoreDefinition.hpp"
-#include "ClientDeclaration.hpp"
+#include "../Commons/Models/Lobby2.hpp"
+#include "../Commons/Networks/MessageHandler.hpp"
+#include "../Commons/CoreFunction.hpp" 
+#include "../Commons/CommonIncluding.hpp" 
+#include "../Commons/CommonDefinition.hpp"
+#include "../Commons/Definitions/TextStyle.hpp"
+#include "ClientNetwork.hpp"
+#include "ClientDefinition.hpp"
+#include "ClientIncluding.hpp"
 
-// vector<UIRoom> ConvertLobbyRooms(const Lobby& lobby) 
-// {
-//     vector<UIRoom> ui;
-//     ui.reserve(lobby.Rooms.size());
-
-//     // Sort rooms by ID ascending
-//     vector<pair<int, Room>> sortedRooms(lobby.Rooms.begin(), lobby.Rooms.end());
-//     sort(sortedRooms.begin(), sortedRooms.end(),
-//          [](auto& a, auto& b){ return a.first < b.first; });
-
-//     for (const auto& pair : sortedRooms) {
-//         const Room& r = pair.second;
-
-//         UIRoom u;
-//         u.id = r.ID;
-//         u.name = r.Name;
-//         u.current = r.Members.size();
-//         u.max = 15;
-//         u.inMatch = r.InMatch;
-
-//         ui.push_back(u);
-//     }
-
-//     return ui;
-// }
-
-void PrintRoomList(const vector<MyUIRoom>& rooms) 
+void CallPhase(int phase, int clientFD, const vector<string>& args)
 {
-    for (const auto& room : rooms) 
-    {
-        cout << room.ID << " " << room.Name << " - " << room.Host << endl;
-    }
+    static void (*funcs[])(int, vector<string>) = 
+    { 
+        HandleWelcomeInput, 
+        HandleLobbyInput
+    };
+
+    funcs[phase](clientFD, args);
 }
 
 void ReceiveThread(int clientFD)
@@ -47,66 +26,28 @@ void ReceiveThread(int clientFD)
         string msg = ReceiveMessage(clientFD);
         if (msg.empty()) break;
 
-        auto split = SplitMessage(msg);
-        auto code = atoi(split[0].c_str());
+        auto split = SplitBySpace(msg);
+        auto code = split[0];
 
-        if (code == RS_NETWORK_CONNECTED)
+        if (code == RS_NETWORK_CONNECTED ||
+            code == RS_SIGN_UP_F_ACCOUNT_EXISTED ||
+            code == RS_LOG_IN_F_WRONG_PASSWORD ||
+            code == RS_LOG_IN_F_ACCOUNT_NOT_EXISTED ||
+            code == RS_LOG_IN_F_ACCOUNT_HAS_BEEN_USED)
         {
-            // ClientFD = atoi(data.c_str());
-            cout << "Connect to server successfully!" << endl;
+            ShowWelcomeView(code);
         }
-        else if (code == RS_SIGN_UP_S)
+        else if (code == RS_SIGN_UP_S ||
+            code == RS_LOG_IN_S)
         {
-            cout << "Sign up successfully" << endl;
+            Account = AccountRecord::Deserialize(split[1]);
+            CurrentPhase = PHASE_LOBBY;
+
+            ShowLobbyView();
+
+            SendMessage(clientFD, string(RQ_UPDATE_LOBBY));
+
         }
-        else if (code == RS_SIGN_UP_F_ACCOUNT_EXISTED)
-        {
-            cout << "Sign up failed: Account existed" << endl;
-        }
-        else if (code == RS_LOG_IN_S)
-        {
-            cout << "Log in successfully" << endl;
-        }
-        else if (code == RS_LOG_IN_F_WRONG_PASSWORD)
-        {
-            cout << "Log in failed: Wrong password" << endl;
-        }
-        else if (code == RS_LOG_IN_F_ACCOUNT_NOT_EXISTED)
-        {
-            cout << "Log in failed: Account not existed" << endl;
-        }
-        // else if (code == RS_UPDATE_ROOM_LIST)
-        // { 
-        //     ClearScreen();
-
-        //     auto rooms = DeserializeLobby(data);
-        //     PrintRoomList(rooms);            
-        // }
-
-        // if (atoi(msg.c_str()) == NETWORK_CONNECTED)
-        // {
-        //     Lobby lobby;
-        //     string playerName = to_string(clientFD);
-
-        //     int myFD = clientFD;
-        //     // Add some sample rooms
-        //     CreateRoom(lobby, myFD, "RoomA");
-        //     CreateRoom(lobby, myFD, "RoomB");
-        //     CreateRoom(lobby, myFD, "RoomC");
-        //     CreateRoom(lobby, myFD, "RoomD");
-        //     CreateRoom(lobby, myFD, "RoomE");
-        //     CreateRoom(lobby, myFD, "RoomF");
-        //     CreateRoom(lobby, myFD, "RoomG");
-
-        //     int page = 0;
-
-        //     vector<UIRoom> rooms = ConvertLobbyRooms(lobby);
-        //     int totalPages = ((int)rooms.size() + 14)/15;
-
-        //     DrawUI(rooms, playerName, page, totalPages);
-        // }
-
-        //cout << ClientFD << " - " << msg << endl;
     }
 }
 
@@ -114,34 +55,18 @@ int main()
 {
     ClearScreen();
 
-    int clientFD = socket(AF_INET, SOCK_STREAM, 0);
-    if (clientFD < 0) 
-    { 
-        perror("socket"); 
-        return 0; 
-    }
-
-    sockaddr_in serv = {};
-    serv.sin_family = AF_INET;
-    serv.sin_port = htons(SERVER_PORT);
-    inet_pton(AF_INET, CLIENT_IP, &serv.sin_addr);
-
-    if (connect(clientFD, (sockaddr*)&serv, sizeof(serv)) < 0)
-    {
-        perror("connect");
-        return 1;
-    }
+    int clientFD = CreateSocket();
 
     thread(ReceiveThread, clientFD).detach();
 
     while (true)
     {
-        string command, message;
+        string command;
         getline(cin, command);
 
-        if (command == "/quit") break;
-
-        SendMessage(clientFD, command);
+        auto split = SplitBySpace(command);
+        
+        CallPhase(CurrentPhase, clientFD, split);
     }
 
     close(clientFD);

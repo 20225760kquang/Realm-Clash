@@ -1,119 +1,62 @@
-#include "ServerDeclaration.hpp"
+#include "../Commons/CommonDefinition.hpp"
+#include "../Commons/CommonIncluding.hpp"
+#include "../Commons/CoreFunction.hpp"
+#include "../Commons/Networks/MessageHandler.hpp"
+#include "../Commons/Models/Lobby2.hpp"
 #include "ServerNetwork.hpp"
 #include "ServerDefinition.hpp"
-#include "../Cores/CoreDefinition.hpp"
-#include "../Cores/CoreIncluding.hpp"
-#include "../Cores/CoreFunction.hpp"
-#include "../Cores/Networks/MessageHandler.hpp"
-#include "../Cores/Models/Lobby2.hpp"
-
-Lobby Lobby;
+#include "ServerIncluding.hpp"
 
 void HandleClient(int clientFD)
 {
     {
         lock_guard<mutex> lock(ClientsMutex);
-        Clients.push_back(clientFD);
     }
 
-    SendMessage(clientFD, to_string(RS_NETWORK_CONNECTED) + " a");
+    SendMessage(clientFD, RS_NETWORK_CONNECTED);
 
     while (true)
     {
         string msg = ReceiveMessage(clientFD);
         if (msg.empty()) break;
 
-        cout << "\033[33m■\033[0m [Client " << clientFD << "]: " << msg << endl;
+        cout << FG_YELLOW "■" RESET " Client " << clientFD << ": " << msg << endl;
 
-        //auto [code, data] = HandleRequest(msg);
-        auto parts = SplitMessage(msg);
+        auto parts = SplitBySpace(msg);
         string code = parts[0];
         string response = msg;
 
         if (code == RQ_SIGN_UP)
         {
-            if (FileExists(ACCOUNT_FILE_PATH))
-            {
-                string password;
-
-                if (IsExistedAccount(ACCOUNT_FILE_PATH, parts[1], password))
-                {
-                    SendMessage(clientFD, to_string(RS_SIGN_UP_F_ACCOUNT_EXISTED));
-                }
-                else
-                {
-                    int accountID = atoi(ReadLine(STATUS_FILE_PATH, STATUS_ACCOUNT_ID).c_str());
-
-                    stringstream ss;
-                    ss << accountID << " " << parts[1] << " " << parts[2];
-                    WriteAt(ACCOUNT_FILE_PATH, accountID, ss.str());
-                    WriteAt(STATUS_FILE_PATH, STATUS_ACCOUNT_ID, to_string(accountID + 1));
-
-                    SendMessage(clientFD, to_string(RS_SIGN_UP_S));
-                }
-            }
-            else
-            {
-                cout << "File not exist" << endl;
-            }
+            HandleSignUp(clientFD, parts[1]);
         }
         else if (code == RQ_LOG_IN)
         {
-            if (FileExists(ACCOUNT_FILE_PATH))
-            {
-                string password;
-
-                if (IsExistedAccount(ACCOUNT_FILE_PATH, parts[1], password))
-                {
-                    if (parts[2] == password)
-                    {
-                        SendMessage(clientFD, to_string(RS_LOG_IN_S));
-                    }
-                    else
-                    {
-                        SendMessage(clientFD, to_string(RS_LOG_IN_F_WRONG_PASSWORD));
-                    }
-                }
-                else
-                {
-                    SendMessage(clientFD, to_string(RS_LOG_IN_F_ACCOUNT_NOT_EXISTED));
-                }
-            }
-            else
-            {
-                cout << "File not exist" << endl;
-            }
+            HandleLogIn(clientFD, parts[1]);
         }
-        // else if (code == RQ_CREATE_ROOM)
-        // {
-        //     cout << "Created room name: " << data << endl;
-        //     // response = to_string(RS_CREATE_ROOM_S) + " " + data;
-
-        //     CreateRoom(Lobby, clientFD, data);
-        //     response = to_string(RS_UPDATE_ROOM_LIST) + " " + SerializeLobby(Lobby).dump();
-        
-        //     BroadcastMessage(response, clientFD, true);
-        // }
+        else if (code == RQ_UPDATE_LOBBY)
+        {
+            HandleUpdateLobby(clientFD);
+        }
     }
 
     {
         lock_guard<mutex> lock(ClientsMutex);
-        Clients.erase(remove(Clients.begin(), Clients.end(), clientFD), Clients.end());
     }
 
     close(clientFD);
-    cout << "\033[31m●\033[0m Client " << clientFD << " disconnected.\n";
+    cout << FG_RED "●" RESET " Client " << clientFD << " disconnected.\n";
 }
 
 int main()
 {
     ClearScreen();
 
-    int ServerFD = CreateSocket();
+    int serverFD = CreateSocket();
 
     while (true)
     {
-        int clientFD = AcceptClient(ServerFD);
+        int clientFD = AcceptClient(serverFD);
         if (clientFD < 0) 
         {
             continue;
@@ -122,6 +65,6 @@ int main()
         thread(HandleClient, clientFD).detach();
     }
 
-    close(ServerFD);
+    close(serverFD);
     return 1;
 }

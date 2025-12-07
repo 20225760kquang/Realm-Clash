@@ -1,7 +1,7 @@
 #ifndef MESSAGE_HANDLER
 #define MESSAGE_HANDLER
 
-#include "../CoreIncluding.hpp"
+#include "../CommonIncluding.hpp"
 
 bool SendMessage(int clientFD, const string &msg)
 {

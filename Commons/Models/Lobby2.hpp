@@ -1,7 +1,7 @@
 #ifndef LOBBY2
 #define LOBBY2
 
-#include "../CoreIncluding.hpp"
+#include "../CommonIncluding.hpp"
 
 struct Account
 {
