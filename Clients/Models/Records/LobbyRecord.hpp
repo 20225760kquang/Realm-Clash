@@ -5,6 +5,7 @@ struct MemberRecord
 {
     int ID;
     string Name;
+    bool IsRequestPending;
     bool IsTeamLeader;
     bool IsRoomLeader;
 };
@@ -45,15 +46,17 @@ struct LobbyRecord
                 {
                     const auto& memberJson = teamJson["Members"][i];
 
-                    m.ID            = memberJson.value("ID", 0);
-                    m.Name          = memberJson.value("Name", "");
-                    m.IsTeamLeader  = memberJson.value("IsTeamLeader", false);
-                    m.IsRoomLeader  = memberJson.value("IsRoomLeader", false);
+                    m.ID               = memberJson.value("ID", 0);
+                    m.Name             = memberJson.value("Name", "");
+                    m.IsRequestPending = memberJson.value("IsRequestPending", false);
+                    m.IsTeamLeader     = memberJson.value("IsTeamLeader", false);
+                    m.IsRoomLeader     = memberJson.value("IsRoomLeader", false);
                 }
                 else
                 {
                     m.ID = 0;
                     m.Name = "";
+                    m.IsRequestPending = false;
                     m.IsTeamLeader = false;
                     m.IsRoomLeader = false;
                 }

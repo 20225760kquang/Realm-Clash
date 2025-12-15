@@ -18,6 +18,7 @@
 #include <chrono>
 #include <atomic>
 #include <functional>
+#include <utility>
 #include "Plugins/Nlohmann Json/json.hpp"
 
 #include "Definitions/TextStyle.hpp"

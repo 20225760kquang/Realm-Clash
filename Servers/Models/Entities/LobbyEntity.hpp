@@ -33,19 +33,28 @@ struct TeamEntity
     {
         return 3 - CountFreeSlot();
     }
-    int AssignFreeSlot(int account)
+    int AssignFreeSlot(int account, bool isPending = false)
     {
         for (int i = 0; i < 3; i++)
         {
             if (Members[i].ID == 0)
             {
                 Members[i].ID = account;
-                Members[i].IsRequestPending = false;
+                Members[i].IsRequestPending = isPending;
                 return i;
             }
         }
 
         return -1;
+    }
+    MemberEntity* CheckIfPending(int id)
+    {
+        for (auto& member : Members)
+        {
+            if (member.ID == id && member.IsRequestPending)
+                return &member;
+        }
+        return nullptr;
     }
 };
 
@@ -129,9 +138,12 @@ struct LobbyEntity
         return ss.str();
     }
 
-    void RemoveMember(int teamIndex, int id)
+    pair<int, int> RemoveMember(int teamIndex, int id)
     {
         auto& account = Accounts[id];
+
+        auto newRoomLeader = 0;
+        auto newTeamLeader = 0;
 
         if (account.IsRoomLeader)
         {
@@ -140,8 +152,10 @@ struct LobbyEntity
 
             if (JoinedMembers.size() > 1)
             {
-                RoomLeader = JoinedMembers[1];
-                Accounts[JoinedMembers[1]].IsRoomLeader = true;
+                newRoomLeader = JoinedMembers[1];
+
+                RoomLeader = newRoomLeader;
+                Accounts[newRoomLeader].IsRoomLeader = true;
             }
         }
         if (account.IsTeamLeader)
@@ -150,7 +164,9 @@ struct LobbyEntity
             {
                 if (member.ID != 0 && member.ID != id)
                 {
-                    Accounts[member.ID].IsTeamLeader = true;
+                    newTeamLeader = member.ID;
+
+                    Accounts[newTeamLeader].IsTeamLeader = true;
                     break;
                 }
             }
@@ -161,14 +177,17 @@ struct LobbyEntity
         account.Team = -1;
 
         // Remove account
-        for (auto& member : Teams[teamIndex].Members)
+        auto& members = Teams[teamIndex].Members;
+
+        auto it = find_if(members.begin(), members.end(), [&](const MemberEntity& m) { return m.ID == id; });
+    
+        if (it != members.end())
         {
-			if (member.ID == id)
-			{
-				member.Reset();
-				break;
-			}
+            move(it + 1, members.end(), it);
+            members.back().Reset();
         }
+
+		return { newRoomLeader, newTeamLeader };
     }
     int CountActiveTeam()
     {

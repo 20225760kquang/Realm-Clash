@@ -2,7 +2,6 @@
 #include "../Commons/CommonIncluding.hpp"
 #include "../Commons/CoreFunction.hpp"
 #include "../Commons/Networks/MessageHandler.hpp"
-#include "../Commons/Models/Lobby2.hpp"
 #include "ServerIncluding.hpp"
 
 void HandleClient(int clientFD)

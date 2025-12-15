@@ -1,16 +1,4 @@
         TIME        ┃ CID ┃ ➖ ┃                  ACTION                   ┃            DATA
 ━━━━━━━━━━━━━━━━━━━━╋━━━━━╋━➖━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-14/12/2025 13:02:18 ┃   5 ┃ ❓ ┃ REQUESTSIGN UP                            ┃ Email: a, Password: b
-14/12/2025 13:02:18 ┃   5 ┃ ➖ ┃ FAILURESIGN UP : Account existed          ┃ 
-14/12/2025 13:02:22 ┃   5 ┃ ❓ ┃ REQUESTLOG IN                             ┃ Email: m, Password: n
-14/12/2025 13:02:22 ┃   5 ┃ ➖ ┃ FAILURELOG IN : Account not existed       ┃ 
-14/12/2025 13:02:24 ┃   5 ┃ ❓ ┃ REQUESTLOG IN                             ┃ Email: a, Password: b
-14/12/2025 13:02:24 ┃   5 ┃ ➕ ┃ SUCCESSLOG IN                             ┃ ID: 1, Name: U0000001
-14/12/2025 13:02:26 ┃   6 ┃ ❓ ┃ REQUESTLOG IN                             ┃ Email: b, Password: c
-14/12/2025 13:02:26 ┃   6 ┃ ➕ ┃ SUCCESSLOG IN                             ┃ ID: 2, Name: U0000002
-14/12/2025 13:02:27 ┃   6 ┃ ❓ ┃ REQUESTJOIN TEAM                          ┃ Team: 1
-14/12/2025 13:02:27 ┃   6 ┃ ➕ ┃ SUCCESSJOIN TEAM                          ┃ Team 0: [(2,0,U0000002,1,1),(0,0,,0,0),(0,0,,0,0)], Team 1: [(0,0,,0,0),(0,0,,0,0),(0,0,,0,0)], Team 2: [(0,0,,0,0),(0,0,,0,0),(0,0,,0,0)], Team 3: [(0,0,,0,0),(0,0,,0,0),(0,0,,0,0)], Team 4: [(0,0,,0,0),(0,0,,0,0),(0,0,,0,0)]
-14/12/2025 13:02:28 ┃   5 ┃ ❓ ┃ REQUESTJOIN TEAM                          ┃ Team: 1
-14/12/2025 13:02:28 ┃   6 ┃ ➕ ┃ SUCCESSUPDATE JOIN REQUEST                ┃ Request: 1
-14/12/2025 13:02:29 ┃   5 ┃ ➕ ┃ SUCCESSQUIT GAME                          ┃ 
-14/12/2025 13:02:29 ┃   6 ┃ ➕ ┃ SUCCESSQUIT GAME                          ┃ 
+15/12/2025 03:21:52 ┃   6 ┃ ➕ ┃ SUCCESS QUIT GAME                         ┃ 
+15/12/2025 03:21:53 ┃   5 ┃ ➕ ┃ SUCCESS QUIT GAME                         ┃ 

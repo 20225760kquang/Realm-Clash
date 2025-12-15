@@ -131,14 +131,17 @@ void HandleLobbyResponse(int clientFD, const string& code, vector<string> split)
             if (isRoomLeader && isTeamLeader)
             {
                 CurrentPhase = PHASE_LOBBY_JOINED_RTLEADER;
+				Log = LOG_LOBBY_BEING_RTLEADER;
             }
             else if (isRoomLeader)
             {
                 CurrentPhase = PHASE_LOBBY_JOINED_RLEADER;
+				Log = LOG_LOBBY_BEING_RLEADER;
             }
             else if (isTeamLeader)
             {
                 CurrentPhase = PHASE_LOBBY_JOINED_TLEADER;
+				Log = LOG_LOBBY_BEING_TLEADER;
             }
             else
             {
@@ -165,14 +168,17 @@ void HandleLobbyResponse(int clientFD, const string& code, vector<string> split)
             if (isRoomLeader && isTeamLeader)
             {
                 CurrentPhase = PHASE_LOBBY_JOINED_RTLEADER;
+                Log = LOG_LOBBY_BEING_RTLEADER;
             }
             else if (isRoomLeader)
             {
                 CurrentPhase = PHASE_LOBBY_JOINED_RLEADER;
+				Log = LOG_LOBBY_BEING_RLEADER;
             }
             else if (isTeamLeader)
             {
                 CurrentPhase = PHASE_LOBBY_JOINED_TLEADER;
+				Log = LOG_LOBBY_BEING_TLEADER;
             }
             else
             {
@@ -210,7 +216,7 @@ void HandleLobbyResponse(int clientFD, const string& code, vector<string> split)
 
 		ShowLobbyCode(code);
     }
-    else if (code == RS_JOIN_TEAM_F_REQUEST_REJECTED)
+    else if (code == RS_JOIN_TEAM_F_REQUEST_EXPIRED)
     {
 		CurrentPhase = PHASE_LOBBY_JOINING_READY;
 		
@@ -221,6 +227,10 @@ void HandleLobbyResponse(int clientFD, const string& code, vector<string> split)
 		CurrentPhase = PHASE_LOBBY_JOINING_READY;
 
 		ShowLobbyLog(LOG_LOBBY_REQUEST_FULL);
+    }
+    else if (code == RS_JOIN_TEAM_S_REQUEST_ACCEPTED)
+    {
+		ShowLobbyLog(LOG_LOBBY_REQUEST_ACCEPTED);
     }
 }
 

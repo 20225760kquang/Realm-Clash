@@ -3,12 +3,12 @@
 
 struct SessionEntity
 {
-    atomic<bool> Counting = { false };
+    atomic<bool> Tick = { false };
     chrono::steady_clock::time_point StartTime;
 
     void Initialize()
     {
-        Counting.store(false);
+        Tick.store(false);
 		StartTime = chrono::steady_clock::now();
     }
 };

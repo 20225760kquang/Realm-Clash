@@ -7,8 +7,6 @@ Servers/Server.o: Servers/Server.cpp \
  Servers/../Commons/CommonIncluding.hpp \
  Servers/../Commons/Networks/MessageHandler.hpp \
  Servers/../Commons/Networks/../CommonIncluding.hpp \
- Servers/../Commons/Models/Lobby2.hpp \
- Servers/../Commons/Models/../CommonIncluding.hpp \
  Servers/ServerIncluding.hpp Servers/ServerDefinition.hpp \
  Servers/ServerNetwork.hpp Servers/Models/Entities/AccountEntity.hpp \
  Servers/Models/Records/AccountRecord.hpp \
@@ -27,8 +25,6 @@ Servers/../Commons/CoreFunction.hpp:
 Servers/../Commons/CommonIncluding.hpp:
 Servers/../Commons/Networks/MessageHandler.hpp:
 Servers/../Commons/Networks/../CommonIncluding.hpp:
-Servers/../Commons/Models/Lobby2.hpp:
-Servers/../Commons/Models/../CommonIncluding.hpp:
 Servers/ServerIncluding.hpp:
 Servers/ServerDefinition.hpp:
 Servers/ServerNetwork.hpp:

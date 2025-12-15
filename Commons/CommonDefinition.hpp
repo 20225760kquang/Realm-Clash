@@ -40,8 +40,9 @@
 #define RS_LOG_IN_F_ACCOUNT_HAS_BEEN_USED       "104"
 
 #define RS_JOIN_TEAM_S                          "210"
+#define RS_JOIN_TEAM_S_REQUEST_ACCEPTED         "211"
 #define RS_JOIN_TEAM_F_TEAM_FULL                "201"
-#define RS_JOIN_TEAM_F_REQUEST_REJECTED         "202"
+#define RS_JOIN_TEAM_F_REQUEST_EXPIRED          "202"
 #define RS_JOIN_TEAM_F_REQUEST_FULL				"206"
 #define RS_EXIT_TEAM_S                          "212"
 #define RS_EXIT_TEAN_F_MATCH_STARTED            "203"
@@ -70,6 +71,7 @@
 #define RS_UPDATE_TEAM_ROLE                     "811"
 #define RS_UPDATE_JOIN_REQUEST					"812"
 #define RS_UPDATE_PENDING_JOIN					"813"
+#define RS_UPDATE_PENDING_JOIN_ACCEPTED			"814"
 
 #define RS_NETWORK_CONNECTED                    "910"
 

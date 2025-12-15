@@ -41,9 +41,9 @@ inline const string CodePrefix(LogType type)
 {
     switch (type)
     {
-    case LogType::Request: return "REQUEST ";
-    case LogType::Success: return "SUCCESS ";
-    case LogType::Failure: return "FAILURE ";
+        case LogType::Request: return "REQUEST ";
+        case LogType::Success: return "SUCCESS ";
+        case LogType::Failure: return "FAILURE ";
     }
     return "";
 }

@@ -1,20 +1,24 @@
 #ifndef CLIENT_HANDLER_PHASE_WELCOME
 #define CLIENT_HANDLER_PHASE_WELCOME
 
-void HandleWelcomeInput(int clientFD, vector<string> split)
+void HandleWelcomeInput(int clientFD, vector<string> command)
 {
     string message;
-    int code = atoi(split[0].c_str());
+    int code = atoi(command[0].c_str());
 
-    if (code == 1)
+    if (code == 1 && command.size() == 3)
     {
-        AccountEntity acc { split[1], split[2] };
+        AccountEntity acc{ command[1], command[2] };
         SendMessage(clientFD, string(RQ_SIGN_UP) + " " + acc.Serialize());
     }
-    else if (code == 2)
+    else if (code == 2 && command.size() == 3)
     {
-        AccountEntity acc { split[1], split[2] };
+        AccountEntity acc{ command[1], command[2] };
         SendMessage(clientFD, string(RQ_LOG_IN) + " " + acc.Serialize());
+    }
+    else
+    {
+        ShowWelcomeLog(LOG_UNKNOWN_COMMAND);
     }
 }
 
@@ -26,7 +30,7 @@ void HandleWelcomeResponse(int clientFD, const string& code, vector<string> spli
         code == RS_LOG_IN_F_ACCOUNT_NOT_EXISTED ||
         code == RS_LOG_IN_F_ACCOUNT_HAS_BEEN_USED)
     {
-        ShowWelcomeView(code);
+        ShowWelcomeCode(code);
     }
     else if (code == RS_SIGN_UP_S ||
              code == RS_LOG_IN_S)

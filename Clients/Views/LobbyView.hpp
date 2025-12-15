@@ -33,7 +33,7 @@ Branch 3: Joined a team & being leader
 ┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 */
 
-string MakeTitle(const std::string& playerName)
+string MakeLobbyTitle(const std::string& playerName)
 {
     const int totalLen = 70;
 
@@ -52,32 +52,41 @@ string MakeTitle(const std::string& playerName)
     return "┏" + fill + " " + playerName + " ━┓";
 }
 
-string MakeUnderlineName(int id, string name)
+string MakeLobbyMemberName(const MemberRecord& member)
 {
-    if (id == Account.ID) return UNDERLINE + name + RESET;
+	auto name = member.Name;
+    if (member.ID == Account.ID) name = UNDERLINE + name + RESET;
+    if (member.IsRequestPending) name = FG_GRAY + name;
     return name;
 }
 
-string MakeTeamLine(const TeamRecord& team)
+string MakeLobbyTeamLine(const TeamRecord& team)
 {
     auto member0 = team.Members[0];
     auto isRoomLeader = team.Members[0].IsRoomLeader;
 
-    auto tlMark = team.Members[0].IsTeamLeader ? string(BOLD) : "";
     auto rlMark = isRoomLeader ? " ⭐" : "";
 
     auto member0Text = member0.Name + rlMark;
-    auto member0StyledText = MakeUnderlineName(team.Members[0].ID, member0.Name) + rlMark;
+    auto member0StyledText = MakeLobbyMemberName(member0) + rlMark;
 
     return 
-    " | " + tlMark + member0StyledText + RESET + string((isRoomLeader ? 20 : 19) - member0Text.length(), ' ') + 
-    "| " + MakeUnderlineName(team.Members[1].ID, team.Members[1].Name) + RESET + string(19 - team.Members[1].Name.length(), ' ') +
-    "| " + MakeUnderlineName(team.Members[2].ID, team.Members[2].Name) + RESET + string(19 - team.Members[2].Name.length(), ' ') + "┃\n";
+    " | " + string(BOLD) + member0StyledText + RESET + string((isRoomLeader ? 20 : 19) - member0Text.length(), ' ') +
+    "| " + MakeLobbyMemberName(team.Members[1]) + string(19 - team.Members[1].Name.length(), ' ') +
+    "| " + MakeLobbyMemberName(team.Members[2]) + string(19 - team.Members[2].Name.length(), ' ') + "┃\n";
 }
 
-string GetLog(string code)
+string GetLobbyLog(string code)
 {
-    if (code == RS_JOIN_TEAM_S)
+    if (code == RS_SIGN_UP_S)
+    {
+		return FG_GREEN "Sign up successfully!";
+    }
+    else if (code == RS_LOG_IN_S)
+    {
+		return FG_GREEN "Log in successfully!";
+    }
+    else if (code == RS_JOIN_TEAM_S)
     {
         return FG_GREEN "You joined the team!";
     }
@@ -97,15 +106,19 @@ string GetLog(string code)
     {
 		return FG_YELLOW "Joining request sent. Expired in " + to_string(PendingJoinTick) + ".";
     }
-    else if (code == RS_JOIN_TEAM_F_REQUEST_REJECTED)
+    else if (code == RS_JOIN_TEAM_F_REQUEST_EXPIRED)
     {
-		return FG_RED "Joining request rejected!";
+		return FG_RED "Joining request expired!";
+    }
+    else if (code == RS_EXIT_TEAM_S)
+    {
+		return FG_GREEN "You exited the team!";
     }
 
     return Log;
 }
 
-string GetOption()
+string GetLobbyOption()
 {
     if (CurrentPhase == PHASE_LOBBY_JOINING_READY)
     {
@@ -146,7 +159,7 @@ string GetOption()
     return "";
 }
 
-string GetSubLog()
+string GetLobbySubLog()
 {
     if (JoinRequestAmount == 0)
     {
@@ -163,19 +176,19 @@ void ShowLobbyView()
 {
     ClearScreen();
 
-    cout << MakeTitle(Account.Name) << "\n";
+    cout << MakeLobbyTitle(Account.Name) << "\n";
     cout <<
     "┣━ LOBBY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
-    "┃ " << GetTeamColor(1) << SQUARE << RESET << " 1" << MakeTeamLine(Lobby.Teams[0]) <<
-    "┃ " << GetTeamColor(2) << SQUARE << RESET << " 2" << MakeTeamLine(Lobby.Teams[1]) <<
-    "┃ " << GetTeamColor(3) << SQUARE << RESET << " 3" << MakeTeamLine(Lobby.Teams[2]) <<
-    "┃ " << GetTeamColor(4) << SQUARE << RESET << " 4" << MakeTeamLine(Lobby.Teams[3]) <<
-    "┃ " << GetTeamColor(5) << SQUARE << RESET << " 5" << MakeTeamLine(Lobby.Teams[4]) <<
+    "┃ " << GetTeamColor(1) << SQUARE << RESET << " 1" << MakeLobbyTeamLine(Lobby.Teams[0]) <<
+    "┃ " << GetTeamColor(2) << SQUARE << RESET << " 2" << MakeLobbyTeamLine(Lobby.Teams[1]) <<
+    "┃ " << GetTeamColor(3) << SQUARE << RESET << " 3" << MakeLobbyTeamLine(Lobby.Teams[2]) <<
+    "┃ " << GetTeamColor(4) << SQUARE << RESET << " 4" << MakeLobbyTeamLine(Lobby.Teams[3]) <<
+    "┃ " << GetTeamColor(5) << SQUARE << RESET << " 5" << MakeLobbyTeamLine(Lobby.Teams[4]) <<
     "┣━ OPTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
-        << GetOption() <<
+        << GetLobbyOption() <<
     "┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
     "┃ " << BOLD << Log << RESET << string(72 - Log.length(), ' ') << "┃\n"
-        << GetSubLog() <<
+        << GetLobbySubLog() <<
     "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
 }
 
@@ -188,7 +201,7 @@ void ShowLobbyLog(string log)
 
 void ShowLobbyCode(string code)
 {
-    Log = GetLog(code);
+    Log = GetLobbyLog(code);
 
     ShowLobbyView();
 }
