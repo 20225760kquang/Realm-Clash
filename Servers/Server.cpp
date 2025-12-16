@@ -25,6 +25,7 @@ void HandleClient(int clientFD)
 
         HandleWelcomePhase(clientFD, code, parts);
         HandleLobbyPhase(clientFD, code, parts);
+        HandleGamePhase(clientFD, code, parts);
     }
 
     {
@@ -69,7 +70,7 @@ int main()
 
         thread(HandleClient, clientFD).detach();
     }
-
+    
     LogFile.close();
     close(serverFD);
     return 1;

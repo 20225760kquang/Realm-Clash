@@ -40,5 +40,6 @@ LobbyEntity Lobby;
 #include "Handlers/Phases/ProgressPhase.hpp"
 #include "Handlers/Phases/WelcomePhase.hpp"
 #include "Handlers/Phases/LobbyPhase.hpp"
+#include "Handlers/Phases/GamePhase.hpp"
 
 #endif

@@ -79,6 +79,8 @@
 
 #define RS_ATTACK_CASTLE_S                      "710"
 #define RS_ATTACK_CASTLE_F_INSUFFICIENT_POWER   "701"
+#define RS_ATTACK_CASTLE_F_SELF_ATTACK          "702"
+#define RS_ATTACK_CASTLE_F_WEAPON_NOT_FOUND     "703"
 
 // Server - Update responses
 #define RS_UPDATE_ROOM_LIST                     "810"
@@ -91,6 +93,8 @@
 #define RS_UPDATE_INVITE_REQUEST				"815"
 #define RS_UPDATE_PENDING_INVITE				"816"
 #define RS_UPDATE_INVITE_EXPIRED				"817"
+
+#define RS_UPDATE_GAME_STARTED                  "818"
 
 #define RS_NETWORK_CONNECTED                    "910"
 
