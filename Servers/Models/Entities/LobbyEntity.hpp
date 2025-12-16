@@ -208,6 +208,14 @@ struct LobbyEntity
         }
         return count;
     }
+    int CountTeam()
+    {
+		return count_if(Teams.begin(), Teams.end(),
+			[](const TeamEntity& team)
+			{
+				return team.CountMember(true) > 0;
+			});
+    }
 };
 
 #endif

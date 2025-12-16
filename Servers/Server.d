@@ -15,9 +15,11 @@ Servers/Server.o: Servers/Server.cpp \
  Servers/Utilities/ServerLogger.hpp Servers/Utilities/ServerTimer.hpp \
  Servers/Handlers/Handlers/AccountHandler.hpp \
  Servers/Handlers/Handlers/LobbyHandler.hpp \
+ Servers/Handlers/Handlers/GameHandler.hpp \
  Servers/Handlers/Phases/ProgressPhase.hpp \
  Servers/Handlers/Phases/WelcomePhase.hpp \
- Servers/Handlers/Phases/LobbyPhase.hpp
+ Servers/Handlers/Phases/LobbyPhase.hpp \
+ Servers/Handlers/Phases/GamePhase.hpp
 Servers/../Commons/CommonDefinition.hpp:
 Servers/../Commons/CommonIncluding.hpp:
 Servers/../Commons/Plugins/Nlohmann\ Json/json.hpp:
@@ -37,6 +39,8 @@ Servers/Utilities/ServerLogger.hpp:
 Servers/Utilities/ServerTimer.hpp:
 Servers/Handlers/Handlers/AccountHandler.hpp:
 Servers/Handlers/Handlers/LobbyHandler.hpp:
+Servers/Handlers/Handlers/GameHandler.hpp:
 Servers/Handlers/Phases/ProgressPhase.hpp:
 Servers/Handlers/Phases/WelcomePhase.hpp:
 Servers/Handlers/Phases/LobbyPhase.hpp:
+Servers/Handlers/Phases/GamePhase.hpp:

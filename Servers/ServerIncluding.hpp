@@ -36,6 +36,7 @@ LobbyEntity Lobby;
 
 #include "Handlers/Handlers/AccountHandler.hpp"
 #include "Handlers/Handlers/LobbyHandler.hpp"
+#include "Handlers/Handlers/GameHandler.hpp"
 
 #include "Handlers/Phases/ProgressPhase.hpp"
 #include "Handlers/Phases/WelcomePhase.hpp"

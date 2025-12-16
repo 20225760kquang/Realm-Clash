@@ -18,8 +18,10 @@ string Log = FG_GREEN "";
 
 #include "Views/LobbyView.hpp"
 #include "Views/WelcomeView.hpp"
+#include "Views/GameView.hpp"
 
 #include "Handlers/Phases/PhaseWelcome.hpp"
 #include "Handlers/Phases/PhaseLobby.hpp"
+#include "Handlers/Phases/PhaseGame.hpp"
 
 #endif

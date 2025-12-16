@@ -1,5 +1,5 @@
-#ifndef CLIENT_HANDLER_PHASE_LOBBY_JOINING_READY
-#define CLIENT_HANDLER_PHASE_LOBBY_JOINING_READY
+#ifndef CLIENT_HANDLER_PHASE_LOBBY
+#define CLIENT_HANDLER_PHASE_LOBBY
 
 void HandleLobbyInput(int clientFD, vector<string> command)
 {

@@ -1,4 +1,4 @@
-#ifndef SERVER_HANDLER_PHASE_LOBBY
+﻿#ifndef SERVER_HANDLER_PHASE_LOBBY
 #define SERVER_HANDLER_PHASE_LOBBY
 
 void HandleLobbyPhase(int clientFD, const string& code, const vector<string>& command)

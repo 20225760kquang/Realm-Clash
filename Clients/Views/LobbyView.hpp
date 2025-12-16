@@ -18,19 +18,6 @@
 ┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃                                                                    ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-
-# Joined & Become member
-
-┣━ OPTION ━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ • 1: Invite to team              ┃ • 2: Exit team                  ┃
-┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-
-Branch 3: Joined a team & being leader
-
-┣━ OPTION ━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ • 1: Invite to team              ┃ • 2: Accept participation       ┃
-┃ • 3: Exit team                   ┃                                 ┃
-┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 */
 
 string MakeLobbyTitle(const std::string& playerName)
@@ -152,14 +139,13 @@ string GetLobbyOption()
         return 
         "┃ • 1 <member>: Add to team        | • 2: Exit team                  ┃\n"   
         "┃ • 3: Accept join request         | • 4 <member>: Kick member       ┃\n"   
-        "┃ • 5: Remove team                 | • 6: Start game                 ┃\n";   
+        "┃ • 5: Start game                                                    ┃\n";   
     }
     else if (CurrentPhase == PHASE_LOBBY_JOINED_TLEADER)
     {
         return 
         "┃ • 1 <member>: Add to team        | • 2: Exit team                  ┃\n"   
-        "┃ • 3 <id>: Accept join request    | • 4 <member>: Kick member       ┃\n"
-        "┃ • 5: Remove team                                                   ┃\n";   
+        "┃ • 3 <id>: Accept join request    | • 4 <member>: Kick member       ┃\n";
     }
     else if (CurrentPhase == PHASE_LOBBY_JOINED_RLEADER)
     {

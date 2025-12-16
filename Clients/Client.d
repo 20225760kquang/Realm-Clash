@@ -14,8 +14,10 @@ Clients/Client.o: Clients/Client.cpp \
  Clients/Models/Records/LobbyRecord.hpp \
  Clients/Models/Entities/AccountEntity.hpp \
  Clients/Models/Entities/LobbyEntity.hpp Clients/Views/LobbyView.hpp \
- Clients/Views/WelcomeView.hpp Clients/Handlers/Phases/PhaseWelcome.hpp \
- Clients/Handlers/Phases/PhaseLobby.hpp
+ Clients/Views/WelcomeView.hpp Clients/Views/GameView.hpp \
+ Clients/Handlers/Phases/PhaseWelcome.hpp \
+ Clients/Handlers/Phases/PhaseLobby.hpp \
+ Clients/Handlers/Phases/PhaseGame.hpp
 Clients/../Commons/Networks/MessageHandler.hpp:
 Clients/../Commons/Networks/../CommonIncluding.hpp:
 Clients/../Commons/Networks/../Plugins/Nlohmann\ Json/json.hpp:
@@ -35,5 +37,7 @@ Clients/Models/Entities/AccountEntity.hpp:
 Clients/Models/Entities/LobbyEntity.hpp:
 Clients/Views/LobbyView.hpp:
 Clients/Views/WelcomeView.hpp:
+Clients/Views/GameView.hpp:
 Clients/Handlers/Phases/PhaseWelcome.hpp:
 Clients/Handlers/Phases/PhaseLobby.hpp:
+Clients/Handlers/Phases/PhaseGame.hpp:

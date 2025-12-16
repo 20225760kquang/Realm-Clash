@@ -66,7 +66,7 @@ void HandleJoinTeam(int clientFD, string data)
 
 				BroadcastMessage(teamLeaderFD, string(RS_UPDATE_ROOM_LIST) + " " + Lobby.Serialize(), true);
 
-                StartTick(clientFD, TICK_JOIN_REQUEST,
+                StartTickOnClient(clientFD, TICK_JOIN_REQUEST,
                     [accountID](int clientFD, int tick)
                     {
                         SendMessage(clientFD, string(RS_UPDATE_PENDING_JOIN) + " " + to_string(tick));
@@ -153,7 +153,7 @@ void HandleAddMember(int clientFD, string name)
         SendMessage(memberFD, string(RS_UPDATE_TEAM_ROLE));
         WriteLog(LogType::Success, memberFD, "UPDATE TEAM ROLE");
 
-        StopTick(memberFD,
+        StopTickOnClient(memberFD,
             [memberFD](int clientFD)
             {
                 SendMessage(memberFD, string(RS_JOIN_TEAM_S_REQUEST_ACCEPTED));
@@ -246,7 +246,7 @@ void HandleAcceptParticipation(int clientFD)
             SendMessage(memberFD, string(RS_UPDATE_TEAM_ROLE));
             WriteLog(LogType::Success, memberFD, "UPDATE TEAM ROLE");
 
-            StopTick(memberFD,
+            StopTickOnClient(memberFD,
                 [memberFD](int clientFD)
                 {
                     SendMessage(memberFD, string(RS_JOIN_TEAM_S_REQUEST_ACCEPTED));
@@ -295,7 +295,7 @@ void HandleInviteMember(int clientFD, string name)
             WriteLog(LogType::Update, memberFD, "INVITE REQUEST", "From: " + inviter.Name + ", Team: " + to_string(inviter.Team));
             SendMessage(memberFD, string(RS_UPDATE_INVITE_REQUEST) + " " + to_string(inviter.Team));
 
-            StartTick(clientFD, TICK_INVITE_REQUEST,
+            StartTickOnClient(clientFD, TICK_INVITE_REQUEST,
                 [](int clientFD, int tick)
                 {
                     SendMessage(clientFD, string(RS_UPDATE_PENDING_INVITE) + " " + to_string(tick));
@@ -341,7 +341,7 @@ void HandleAcceptInvitation(int clientFD)
 
         BroadcastMessage(teamLeaderFD, string(RS_UPDATE_ROOM_LIST) + " " + Lobby.Serialize(), true);
 
-        StartTick(clientFD, TICK_JOIN_REQUEST,
+        StartTickOnClient(clientFD, TICK_JOIN_REQUEST,
             [accountID](int clientFD, int tick)
             {
                 SendMessage(clientFD, string(RS_UPDATE_PENDING_JOIN) + " " + to_string(tick));
@@ -373,7 +373,7 @@ void HandleAcceptInvitation(int clientFD)
 
 	auto invitorFD = GetValueByKey(Clients, account.InvitorID);
 
-    StopTick(invitorFD,
+    StopTickOnClient(invitorFD,
         [invitorFD](int clientFD)
         {
 			SendMessage(invitorFD, string(RS_INVITE_MEMBER_S));

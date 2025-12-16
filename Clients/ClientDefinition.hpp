@@ -25,4 +25,6 @@
 #define PHASE_LOBBY_JOINED_TLEADER				112                
 #define PHASE_LOBBY_JOINED_RTLEADER				113     
 
+#define PHASE_GAME_START_GAME					200
+
 #endif

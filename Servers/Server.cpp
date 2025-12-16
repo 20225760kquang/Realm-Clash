@@ -19,13 +19,13 @@ void HandleClient(int clientFD)
 
         cout << FG_YELLOW "■" RESET " Client " << clientFD << ": " << msg << endl;
 
-        auto parts = SplitBySpace(msg);
-        string code = parts[0];
+        auto command = SplitBySpace(msg);
+        string code = command[0];
         string response = msg;
 
-        HandleWelcomePhase(clientFD, code, parts);
-        HandleLobbyPhase(clientFD, code, parts);
-        HandleGamePhase(clientFD, code, parts);
+        HandleWelcomePhase(clientFD, code, command);
+        HandleLobbyPhase(clientFD, code, command);
+		HandleGamePhase(clientFD, code, command);
     }
 
     {
@@ -70,7 +70,7 @@ int main()
 
         thread(HandleClient, clientFD).detach();
     }
-    
+
     LogFile.close();
     close(serverFD);
     return 1;

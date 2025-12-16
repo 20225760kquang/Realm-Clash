@@ -1,33 +1,18 @@
-#ifdef SERVER_HANDLER_GAME
-#define SERVER_HANDLER_PHASE_GAME
-#include "../../../Temps/Models/InGameServer.hpp"
-#include "../../ServerIncluding.hpp"
-#include "../../../Commons/CommonDefinition.hpp"
-#include "../../Temps/Models/Participant.hpp"
+#ifndef SERVER_HANDLER_GAME
+#define SERVER_HANDLER_GAME
 
-void HandleRequestSpot(int clientFD, const string& spotID){
-    ///....
-}
-void HandleAnswerSpot(int clientFD, const string& spotID, const string& answer){
-    ///....
-}
-void HandleRequestCastle(int clientFD, const string& castleID){
-    ///....
-}
-void HandleAnswerCastle(int clientFD, const string& castleID, const string& answer){
-    ///....
-}
-void HandleBuyDefense(int clientFD, const string& spotID, Items defense){
-    ///....
-}
-void HandleBuyWeapon(int clientFD, const string& spotID){
-    ///....
-}
-void HandleAttackCastle(int clientFD, const string& castleID, Items weapon){
-    ///....
-}
-void HandleGetStatus(int clientFD){
-    ///....
+void HandleStartGame(int clientFD)
+{
+	if (Lobby.CountTeam() < 3)
+	{
+		WriteLog(LogType::Failure, clientFD, "START GAME : Not enough teams.", "Current team: " + to_string(Lobby.CountTeam()));
+		SendMessage(clientFD, string(RS_START_GAME_F_NOT_ENOUGH_TEAMS));
+		
+		return;
+	}
+
+	WriteLog(LogType::Success, clientFD, "START GAME");
+	BroadcastMessage(clientFD, string(RS_UPDATE_GAME_START), true);
 }
 
-
+#endif
