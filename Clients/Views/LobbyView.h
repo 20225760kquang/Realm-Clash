@@ -3,7 +3,6 @@
 
 #include "../../Commons/CoreFunction.hpp" 
 #include "../../Commons/CommonIncluding.hpp" 
-#include "../../Commons/CommonDefinition.hpp"
 
 /*
 ┏━ playerA ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓

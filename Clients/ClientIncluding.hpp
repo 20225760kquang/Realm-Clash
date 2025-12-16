@@ -11,7 +11,9 @@ int CurrentPhase = 0;
 AccountRecord Account;
 LobbyRecord Lobby;
 int JoinRequestAmount = 0;
+int TeamInviteRequest = 0;
 int PendingJoinTick = 0;
+int PendingInviteTick = 0;
 string Log = FG_GREEN "";
 
 #include "Views/LobbyView.hpp"

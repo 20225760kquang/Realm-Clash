@@ -3,6 +3,7 @@ Servers/Server.o: Servers/Server.cpp \
  Servers/../Commons/CommonIncluding.hpp \
  Servers/../Commons/Plugins/Nlohmann\ Json/json.hpp \
  Servers/../Commons/Definitions/TextStyle.hpp \
+ Servers/../Commons/CommonDefinition.hpp \
  Servers/../Commons/CoreFunction.hpp \
  Servers/../Commons/CommonIncluding.hpp \
  Servers/../Commons/Networks/MessageHandler.hpp \
@@ -21,6 +22,7 @@ Servers/../Commons/CommonDefinition.hpp:
 Servers/../Commons/CommonIncluding.hpp:
 Servers/../Commons/Plugins/Nlohmann\ Json/json.hpp:
 Servers/../Commons/Definitions/TextStyle.hpp:
+Servers/../Commons/CommonDefinition.hpp:
 Servers/../Commons/CoreFunction.hpp:
 Servers/../Commons/CommonIncluding.hpp:
 Servers/../Commons/Networks/MessageHandler.hpp:

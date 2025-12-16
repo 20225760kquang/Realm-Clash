@@ -3,6 +3,7 @@ Clients/Client.o: Clients/Client.cpp \
  Clients/../Commons/Networks/../CommonIncluding.hpp \
  Clients/../Commons/Networks/../Plugins/Nlohmann\ Json/json.hpp \
  Clients/../Commons/Networks/../Definitions/TextStyle.hpp \
+ Clients/../Commons/Networks/../CommonDefinition.hpp \
  Clients/../Commons/CoreFunction.hpp \
  Clients/../Commons/CommonIncluding.hpp \
  Clients/../Commons/CommonIncluding.hpp \
@@ -19,6 +20,7 @@ Clients/../Commons/Networks/MessageHandler.hpp:
 Clients/../Commons/Networks/../CommonIncluding.hpp:
 Clients/../Commons/Networks/../Plugins/Nlohmann\ Json/json.hpp:
 Clients/../Commons/Networks/../Definitions/TextStyle.hpp:
+Clients/../Commons/Networks/../CommonDefinition.hpp:
 Clients/../Commons/CoreFunction.hpp:
 Clients/../Commons/CommonIncluding.hpp:
 Clients/../Commons/CommonIncluding.hpp:
