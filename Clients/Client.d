@@ -15,7 +15,7 @@ Clients/Client.o: Clients/Client.cpp \
  Clients/Models/Entities/AccountEntity.hpp \
  Clients/Models/Entities/LobbyEntity.hpp Clients/Views/LobbyView.hpp \
  Clients/Views/WelcomeView.hpp Clients/Views/GameView.hpp \
- Clients/Handlers/Phases/PhaseWelcome.hpp \
+ Clients/Views/QuestionView.hpp Clients/Handlers/Phases/PhaseWelcome.hpp \
  Clients/Handlers/Phases/PhaseLobby.hpp \
  Clients/Handlers/Phases/PhaseGame.hpp
 Clients/../Commons/Networks/MessageHandler.hpp:
@@ -38,6 +38,7 @@ Clients/Models/Entities/LobbyEntity.hpp:
 Clients/Views/LobbyView.hpp:
 Clients/Views/WelcomeView.hpp:
 Clients/Views/GameView.hpp:
+Clients/Views/QuestionView.hpp:
 Clients/Handlers/Phases/PhaseWelcome.hpp:
 Clients/Handlers/Phases/PhaseLobby.hpp:
 Clients/Handlers/Phases/PhaseGame.hpp:

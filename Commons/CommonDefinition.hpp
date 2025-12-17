@@ -96,7 +96,10 @@
 #define RS_UPDATE_PENDING_INVITE				"816"
 #define RS_UPDATE_INVITE_EXPIRED				"817"
 
+#define RS_UPDATE_KICK_OUT						"818"
+
 #define RS_UPDATE_GAME_START					"820"
+#define RS_UPDATE_GAME_TICK						"821"
 
 #define RS_NETWORK_CONNECTED                    "910"
 

@@ -6,7 +6,7 @@ void HandleGameInput(int clientFD, vector<string> command)
 
 }
 
-void HandleGameResponse(int clientFD, const string& code, vector<string> split)
+void HandleGameResponse(int clientFD, const string& code, vector<string> data)
 {
 	if (code == RS_UPDATE_GAME_START)
 	{
@@ -17,6 +17,12 @@ void HandleGameResponse(int clientFD, const string& code, vector<string> split)
 	else if (code == RS_START_GAME_F_NOT_ENOUGH_TEAMS)
 	{
 		ShowLobbyLog(FG_RED "Start game failed: Not enough teams!");
+	}
+	else if (code == RS_UPDATE_GAME_TICK)
+	{
+		Tick = stoi(data[1]);
+
+		ShowGameView();
 	}
 }
 

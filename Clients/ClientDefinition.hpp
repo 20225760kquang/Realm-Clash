@@ -1,6 +1,8 @@
 #ifndef CLIENT_DEFINITION
 #define CLIENT_DECLARATION
 
+#define WINDOW_WIDTH							70
+
 #define LOG_NONE								FG_GREEN ""
 #define LOG_UNKNOWN_COMMAND						FG_RED "Unknown command!"
 
