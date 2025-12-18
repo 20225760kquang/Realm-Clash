@@ -50,4 +50,19 @@ void HandleStartGame(int clientFD)
 
 }
 
+void HandleOccupySpot(int clientFD, const string& data)
+{
+    auto request = SpotOccupationRecord::Deserialize(data);
+
+    WriteLog(LogType::Request, clientFD, "OCCUPY SPOT", request.Capture());
+
+    auto account = Accounts[Clients[clientFD]];
+
+    Map.Spots[request.Spot].Slots[request.Type] = account.GameTeam;
+
+    WriteLog(LogType::Success, clientFD, "OCCUPY SPOT", request.Capture());
+    SendMessage(clientFD, string(RS_OCCUPY_SPOT_S));
+    BroadcastToClient(clientFD, string(RS_UPDATE_GAME_MAP) + " " + Map.Serialize(), true);
+}
+
 #endif

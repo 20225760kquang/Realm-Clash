@@ -99,7 +99,7 @@ void HandleJoinTeam(int clientFD, string data)
     }
 }
 
-AccountEntity* FindAccountByName(const std::string& myName)
+AccountEntity* FindAccountByName(const string& myName)
 {
     for (auto& [id, acc] : Accounts)
     {

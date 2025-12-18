@@ -13,15 +13,45 @@ struct GameTeamEntity
 
 struct SpotEntity
 {
-	int WoodSlot = -1;
-	int RockSlot = -1;
-	int IronSlot = -1;
+    array<int, 3> Slots = { -1, -1, -1 };
+};
+
+struct CastleEntity
+{
+	int OwnerTeam = -1;
+	int Defense;
 };
 
 struct MapEntity
 {
 	array<SpotEntity, 6> Spots;
-};
+	array<CastleEntity, 3> Castles;
 
+	string Serialize() const
+	{
+        json j;
+
+        j["Spots"] = json::array();
+        for (const auto& spot : Spots)
+        {
+            j["Spots"].push_back({
+                { "Wood",  spot.Slots[0] },
+                { "Rock",  spot.Slots[1] },
+                { "Iron",  spot.Slots[2] }
+                });
+        }
+
+        j["Castles"] = json::array();
+        for (const auto& castle : Castles)
+        {
+            j["Castles"].push_back({
+                { "OwnerTeam", castle.OwnerTeam },
+                { "Defense",   castle.Defense   }
+                });
+        }
+
+        return j.dump();
+	}
+};
 
 #endif

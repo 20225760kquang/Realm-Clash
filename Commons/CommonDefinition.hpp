@@ -27,15 +27,7 @@
 #define RQ_ACCEPT_INVITATION					"ACCEPT_INVITATION"
 
 #define RQ_START_GAME                           "START_GAME"
-
-#define RQ_REQUEST_SPOT                         "REQUEST_SPOT"
-#define RQ_ANSWER_SPOT                          "ANSWER_SPOT"
-#define RQ_REQUEST_CASTLE                       "REQUEST_CASTLE"
-#define RQ_ANSWER_CASTLE                        "ANSWER_CASTLE"
-#define RQ_BUY_DEFENSE                          "BUY_DEFENSE"
-#define RQ_BUY_WEAPON                           "BUY_WEAPON"
-#define RQ_ATTACK_CASTLE                        "ATTACK_CASTLE"
-#define RQ_GET_STATUS                           "GET_STATUS"
+#define RQ_OCCUPY_SPOT                          "OCCUPY_SPOT"
 
 // Server - Response protocols
 #define RS_SIGN_UP_S                            "110"
@@ -67,22 +59,7 @@
 #define RS_START_GAME_S							"300"
 #define RS_START_GAME_F_NOT_ENOUGH_TEAMS		"301"
 
-#define RS_REQUEST_QUESTION_S                   "310"
-#define RS_REQUEST_QUESTION_F_SLOT_OCCUPIED     "301"
-#define RS_REQUEST_QUESTION_F_SLOT_LIMIT        "302"
-
-#define RS_ANSWER_QUESTION_S                    "410"
-#define RS_ANSWER_QUESTION_F_WRONG_ANSWER       "401"
-#define RS_ANSWER_QUESTION_F_TIME_OUT           "402"
-
-#define RS_GIVE_RESOURCE_S                      "510"
-#define RS_GIVE_RESOURCE_F                      "501"
-
-#define RS_SHOP_EQUIPMENT_S                     "610"
-#define RS_SHOP_EQUIPMENT_F_LACK_RESOURCE       "601"
-
-#define RS_ATTACK_CASTLE_S                      "710"
-#define RS_ATTACK_CASTLE_F_INSUFFICIENT_POWER   "701"
+#define RS_OCCUPY_SPOT_S						"400"
 
 // Server - Update responses
 #define RS_UPDATE_ROOM_LIST                     "810"
@@ -100,6 +77,7 @@
 
 #define RS_UPDATE_GAME_START					"820"
 #define RS_UPDATE_GAME_TICK						"821"
+#define RS_UPDATE_GAME_MAP						"822"
 
 #define RS_NETWORK_CONNECTED                    "910"
 
