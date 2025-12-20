@@ -3,14 +3,32 @@
 
 void HandleGamePhase(int clientFD, const string& code, const vector<string>& command)
 {
-	if (code == RQ_START_GAME)
+	if (GamePhase == PHASE_LOBBY_IDLING)
 	{
-		WriteLog(LogType::Request, clientFD, "START GAME");
-		HandleStartGame(clientFD);
+		if (code == RQ_START_GAME)
+		{
+			HandleStartGame(clientFD);
+
+			GamePhase = PHASE_RESOURCE_COLLECTING;
+		}
 	}
-	else if (code == RQ_OCCUPY_SPOT)
+	else if (GamePhase == PHASE_RESOURCE_COLLECTING)
 	{
-		HandleOccupySpot(clientFD, command[1]);
+		if (code == RQ_OCCUPY_SPOT)
+		{
+			HandleOccupySpot(clientFD, command[1]);
+		}
+		else if (code == RQ_OCCUPY_CASTLE)
+		{
+			HandleOccupyCastle(clientFD, command[1]);
+		}
+	}
+	else if (GamePhase == PHASE_CASTLE_COMBATING)
+	{
+		if (code == RQ_BUY_EQUIPMENT)
+		{
+			cout << command[1] << endl;
+		}
 	}
 }
 

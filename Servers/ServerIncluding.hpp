@@ -14,6 +14,8 @@ int RoomLeader = 0;
 atomic<bool> ServerTicking { false };
 thread ServerTickThread;
 
+int GamePhase;
+
 int GetValueByKey(unordered_map<int,int>& m, int v)
 {
     for (auto& p : m)

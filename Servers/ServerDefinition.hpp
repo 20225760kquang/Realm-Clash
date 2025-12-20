@@ -5,7 +5,17 @@
 #define ACCOUNT_PATH                        "Datas/Account.ynl"
 #define LOG_PATH							"Datas/Log.ynl"
 
-#define RESOURCE_UPDATE_TICK				3
+#define TICK_RESOURCE_UPDATE				1
+
+#define MULTIPLIER_RESOURSE_UPDATE			2
+
+#define TIME_START_COMBAT					5
+#define TIME_END_GAME						10
+
+#define PHASE_LOBBY_IDLING					0
+#define PHASE_RESOURCE_COLLECTING			1
+#define PHASE_CASTLE_COMBATING				2
+#define PHASE_GAME_ENDING					3
 
 #define STATUS_LINE_ACCOUNT_ID              1
 

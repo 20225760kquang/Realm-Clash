@@ -220,7 +220,7 @@ void HandleLobbyResponse(int clientFD, const string& code, vector<string> split)
     else if (code == RS_UPDATE_PENDING_JOIN)
     {
 		CurrentPhase = PHASE_LOBBY_JOINING_PENDING;
-		PendingJoinTick = TICK_JOIN_REQUEST - stoi(split[1]);
+		PendingJoinTick = DURATION_JOIN_REQUEST - stoi(split[1]);
 
 		ShowLobbyCode(code);
     }
@@ -264,7 +264,7 @@ void HandleLobbyResponse(int clientFD, const string& code, vector<string> split)
     }
 	else if (code == RS_UPDATE_PENDING_INVITE)
 	{
-        PendingJoinTick = TICK_INVITE_REQUEST - stoi(split[1]);
+        PendingJoinTick = DURATION_INVITE_REQUEST - stoi(split[1]);
 
 		ShowLobbyLog(FG_YELLOW "Invite request sent. Expired in " + to_string(PendingJoinTick) + ".");
     }

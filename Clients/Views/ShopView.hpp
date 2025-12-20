@@ -10,6 +10,7 @@
 ┃ 3: Cannon       | ATK: 8000 | Wood:  500 | Rock: 2500 | Iron: 1800 ┃
 ┣━ OPTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃ 1 <weapon>: Buy weapon           | 2: Switch to defense shop       ┃
+┃ 3: Back to main screen                                             ┃
 ┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃ Please answer in 30s                                               ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
@@ -22,11 +23,55 @@
 ┃ 3: Stone Wall   | DEF: 3000 | Wood:  200 | Rock: 1000 | Iron:  200 ┃
 ┃ 4: Legend Wall  | DEF: 8000 | Wood: 1000 | Rock: 2000 | Iron: 1000 ┃
 ┣━ OPTIONS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ 1 <weapon>: Buy defense          | 2: Switch to weapon shop        ┃
+┃ 1 <index> <amount>: Buy defense  | 2: Switch to weapon shop        ┃
+┃ 3: Back to main screen                                             ┃
 ┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃ Please answer in 30s                                               ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 */
 
-#endif01
+string GetShopOption()
+{
+    if (CurrentPhase == PHASE_GAME_SHOPING_WEAPON)
+    {
+        return
+            "┃ • 1 <id> <amount>: Buy weapon    | • 2: Switch to defense shop     ┃\n"
+            "┃ • 3: Back to main screen                                           ┃\n";
+    }
+    else if (CurrentPhase == PHASE_GAME_SHOPING_DEFENSE)
+    {
+        return
+            "┃ • 1 <id> <amount>: Buy defense   | • 2: Switch to weapon shop      ┃\n"
+            "┃ • 3: Back to main screen                                           ┃\n";
+    }
+
+    return "";
+}
+
+void ShowShopView()
+{
+    ClearScreen();
+
+    cout
+        << GetGameTitle()
+        << GetResourceLine() <<
+        "┣━ WEAPON SHOP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+        "┃ 1: Balista      | ATK: 1000 | Wood: 1500 | Rock:    0 | Iron:  200 ┃\n"
+        "┃ 2: Catapult     | ATK: 3000 | Wood:  400 | Rock: 1500 | Iron:  300 ┃\n"
+        "┃ 3: Cannon       | ATK: 8000 | Wood:  500 | Rock: 2500 | Iron: 1800 ┃\n"
+        "┣━ OPTION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+        << GetShopOption() <<
+        "┣━ CONSOLES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+        "┃ " << BOLD << Log << RESET << string(72 - Log.length(), ' ') << "┃\n"
+        "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
+}
+
+void ShowShopLog(string log)
+{
+    Log = log;
+
+    ShowShopView();
+}
+
+#endif

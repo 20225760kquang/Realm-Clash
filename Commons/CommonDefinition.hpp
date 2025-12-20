@@ -9,8 +9,8 @@
 #define BUFFER_LIMIT_LENGTH						8192
 
 // Ticking times
-#define TICK_JOIN_REQUEST						30
-#define TICK_INVITE_REQUEST						30
+#define DURATION_JOIN_REQUEST					30
+#define DURATION_INVITE_REQUEST					30
 
 // Client - Request protocols
 #define RQ_SIGN_UP                              "SIGN_UP"
@@ -28,6 +28,9 @@
 
 #define RQ_START_GAME                           "START_GAME"
 #define RQ_OCCUPY_SPOT                          "OCCUPY_SPOT"
+#define RQ_OCCUPY_CASTLE						"OCCUPY_CASTLE"
+
+#define RQ_BUY_EQUIPMENT						"BUY_EQUIPMENT"
 
 // Server - Response protocols
 #define RS_SIGN_UP_S                            "110"
@@ -60,8 +63,11 @@
 #define RS_START_GAME_F_NOT_ENOUGH_TEAMS		"301"
 
 #define RS_OCCUPY_SPOT_S						"400"
+#define RS_OCCUPY_SPOT_F_FULL_OF_SLOT			"401"
 #define RS_OCCUPY_SPOT_F_SPOT_OCCUPIED			"401"
-#define RS_OCCUPY_SPOT_F_FULL_OF_SLOT			"402"
+
+#define RS_OCCUPY_CASTLE_S						"410"
+#define RS_OCCUPY_CASTLE_F_CASTLE_OCCUPIED		"411"
 
 // Server - Update responses
 #define RS_UPDATE_ROOM_LIST                     "810"
@@ -81,6 +87,7 @@
 #define RS_UPDATE_GAME_TICK						"821"
 #define RS_UPDATE_GAME_MAP						"822"
 #define RS_UPDATE_TEAM_RESOURCE					"823"
+#define RS_UPDATE_START_COMBAT					"824"
 
 #define RS_NETWORK_CONNECTED                    "910"
 

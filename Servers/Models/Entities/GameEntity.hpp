@@ -10,6 +10,7 @@ struct TeamEntity
     vector<int> CastleSlots;
 
     array<int, 4> Resources;
+    array<int, 3> Weapons;
 
     int GetFreeSlot(int type)
     {
@@ -50,14 +51,19 @@ struct GroupEntity
     {
         for (auto& team : Teams)
         {
-            for (int t = 0; t < 3; t++)
+            for (int type = 0; type < 3; type++)
             {
-                for (int s = 0; s < 2; s++)
+                for (int slot = 0; slot < 2; slot++)
                 {
-                    if (team.SpotSlots[t][s] == -1) continue;
+                    if (team.SpotSlots[type][slot] == -1) continue;
 
-                    team.Resources[t] += ResourcePerTick[t];
+                    team.Resources[type] += ResourcePerTick[type] * MULTIPLIER_RESOURSE_UPDATE;
                 }
+            }
+
+            for (int castle = 0; castle < (int)team.CastleSlots.size(); castle++)
+            {
+                team.Resources[3] += ResourcePerTick[3] * MULTIPLIER_RESOURSE_UPDATE;
             }
         }
     }

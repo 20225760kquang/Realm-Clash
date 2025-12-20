@@ -8,6 +8,7 @@
 
 #include "Models/Entities/AccountEntity.hpp"
 #include "Models/Entities/OccupationEntity.hpp"
+#include "Models/Entities/CartEntity.hpp"
 
 int CurrentPhase = 0;
 AccountRecord Account;
@@ -27,6 +28,7 @@ ResourceRecord Resource;
 #include "Views/LobbyView.hpp"
 #include "Views/WelcomeView.hpp"
 #include "Views/GameView.hpp"
+#include "Views/ShopView.hpp"
 #include "Views/QuestionView.hpp"
 
 #include "Handlers/Phases/PhaseWelcome.hpp"

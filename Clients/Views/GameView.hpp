@@ -119,6 +119,11 @@ string GetGameOption()
         return
             "┃ • 1 <spot> <type>: Occupy spot   | • 2 <castle>: Occupy castle     ┃\n";
     }
+    else if (CurrentPhase == PHASE_GAME_MAP_COMBATING)
+    {
+        return
+            "┃ • 1: Open shop                   | • 2 <castle>: Attack castle     ┃\n";
+    }
 
     return "";
 }

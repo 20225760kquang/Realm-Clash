@@ -8,6 +8,8 @@ void RequestStopServerTick()
 
 void HandleStartGame(int clientFD)
 {
+    WriteLog(LogType::Request, clientFD, "START GAME");
+
 	//if (Lobby.CountTeam() < 3)
 	//{
 	//	WriteLog(LogType::Failure, clientFD, "START GAME : Not enough teams.", "Current team: " + to_string(Lobby.CountTeam()));
@@ -24,7 +26,7 @@ void HandleStartGame(int clientFD)
     StartTickOnServer(
         [](int tick)
         {
-            if (tick % RESOURCE_UPDATE_TICK == 0)
+            if (tick % TICK_RESOURCE_UPDATE == 0)
             {
                 Group.UpdateResource();
 
@@ -35,6 +37,20 @@ void HandleStartGame(int clientFD)
             }
 
 			BroadcastToClient(-1, string(RS_UPDATE_GAME_TICK) + " " + to_string(tick));
+
+            if (tick == TIME_START_COMBAT)
+            {
+                WriteLog(LogType::Update, -1, "START COMBAT");
+                BroadcastToClient(-1, string(RS_UPDATE_START_COMBAT));
+
+                GamePhase = PHASE_CASTLE_COMBATING;
+            }
+            else if (tick == TIME_END_GAME)
+            {
+                cout << "End game" << endl;
+
+                GamePhase = PHASE_GAME_ENDING;
+            }
         },
         []()
         {
@@ -74,10 +90,37 @@ void HandleOccupySpot(int clientFD, const string& data)
     }
 
     team.SpotSlots[request.Type][freeSlot] = request.Spot;
-    Map.Spots[request.Spot].Slots[request.Type] = account.GameTeam;
+    spot.Slots[request.Type] = account.GameTeam;
 
     WriteLog(LogType::Success, clientFD, "OCCUPY SPOT", request.Capture());
     SendMessage(clientFD, string(RS_OCCUPY_SPOT_S));
+    BroadcastToClient(clientFD, string(RS_UPDATE_GAME_MAP) + " " + Map.Serialize(), true);
+}
+
+void HandleOccupyCastle(int clientFD, const string& data)
+{
+    auto request = stoi(data);
+
+    WriteLog(LogType::Request, clientFD, "OCCUPY CASTLE", "Castle: " + data);
+
+    auto account = Accounts[Clients[clientFD]];
+    auto& castle = Map.Castles[request];
+
+    if (castle.OwnerTeam != -1)
+    {
+        WriteLog(LogType::Failure, clientFD, "OCCUPY CASTLE : Castle occupied", "Castle: " + data);
+        SendMessage(clientFD, string(RS_OCCUPY_CASTLE_F_CASTLE_OCCUPIED));
+
+        return;
+    }
+
+    auto& team = Group.Teams[account.GameTeam];
+
+    team.CastleSlots.push_back(request);
+    castle.OwnerTeam = account.GameTeam;
+
+    WriteLog(LogType::Success, clientFD, "OCCUPY CASTLE", "Castle: " + data);
+    SendMessage(clientFD, string(RS_OCCUPY_CASTLE_S));
     BroadcastToClient(clientFD, string(RS_UPDATE_GAME_MAP) + " " + Map.Serialize(), true);
 }
 

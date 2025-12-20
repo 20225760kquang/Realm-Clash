@@ -5,15 +5,17 @@ void StartTickOnClient(int clientFD, int duration,
     const function<void(int, int)>& onTick = nullptr,
     const function<void(int)>& onEnd = nullptr)
 {
-    lock_guard<mutex> lock(SessionsMutex);
-    Sessions[clientFD].Initialize();
-    Sessions[clientFD].Tick.store(true);
+    {
+        lock_guard<mutex> lock(SessionsMutex);
+        Sessions[clientFD].Initialize();
+        Sessions[clientFD].Tick.store(true);
+    }
 
     thread([clientFD, duration, onTick, onEnd]()
         {
-            for (int i = 0; i <= duration; i++)
+            for (int i = 0; i <= duration; ++i)
             {
-                bool counting = false;
+                bool counting;
                 {
                     lock_guard<mutex> lock(SessionsMutex);
                     counting = Sessions[clientFD].Tick.load();
@@ -26,10 +28,14 @@ void StartTickOnClient(int clientFD, int duration,
                 this_thread::sleep_for(chrono::seconds(1));
             }
 
-            if (onEnd && Sessions[clientFD].Tick.load()) onEnd(clientFD);
+            bool stillTicking;
+            {
+                lock_guard<mutex> lock(SessionsMutex);
+                stillTicking = Sessions[clientFD].Tick.load();
+                Sessions[clientFD].Tick.store(false);
+            }
 
-            lock_guard<mutex> lock(SessionsMutex);
-            Sessions[clientFD].Tick.store(false);
+            if (onEnd && stillTicking) onEnd(clientFD);
 
         }).detach();
 }

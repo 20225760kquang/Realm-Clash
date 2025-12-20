@@ -66,7 +66,7 @@ void HandleJoinTeam(int clientFD, string data)
 
 				BroadcastToClient(teamLeaderFD, string(RS_UPDATE_ROOM_LIST) + " " + Lobby.Serialize(), true);
 
-                StartTickOnClient(clientFD, TICK_JOIN_REQUEST,
+                StartTickOnClient(clientFD, DURATION_JOIN_REQUEST,
                     [accountID](int clientFD, int tick)
                     {
                         SendMessage(clientFD, string(RS_UPDATE_PENDING_JOIN) + " " + to_string(tick));
@@ -295,7 +295,7 @@ void HandleInviteMember(int clientFD, string name)
             WriteLog(LogType::Update, memberFD, "INVITE REQUEST", "From: " + inviter.Name + ", Team: " + to_string(inviter.LobbyTeam));
             SendMessage(memberFD, string(RS_UPDATE_INVITE_REQUEST) + " " + to_string(inviter.LobbyTeam));
 
-            StartTickOnClient(clientFD, TICK_INVITE_REQUEST,
+            StartTickOnClient(clientFD, DURATION_INVITE_REQUEST,
                 [](int clientFD, int tick)
                 {
                     SendMessage(clientFD, string(RS_UPDATE_PENDING_INVITE) + " " + to_string(tick));
@@ -341,7 +341,7 @@ void HandleAcceptInvitation(int clientFD)
 
         BroadcastToClient(teamLeaderFD, string(RS_UPDATE_ROOM_LIST) + " " + Lobby.Serialize(), true);
 
-        StartTickOnClient(clientFD, TICK_JOIN_REQUEST,
+        StartTickOnClient(clientFD, DURATION_JOIN_REQUEST,
             [accountID](int clientFD, int tick)
             {
                 SendMessage(clientFD, string(RS_UPDATE_PENDING_JOIN) + " " + to_string(tick));
